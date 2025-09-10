@@ -11,6 +11,9 @@
 #include "mlir/IR/DialectImplementation.h"
 #include "mlir/InitAllDialects.h"
 #include "mlir/Interfaces/FoldInterfaces.h"
+#include "mlir/Dialect/Tensor/IR/Tensor.h"
+#include "mlir/Dialect/SCF/IR/SCF.h"
+#include "mlir/Dialect/ControlFlow/IR/ControlFlow.h"
 #include "llvm/ADT/TypeSwitch.h"
 
 using namespace mlir;

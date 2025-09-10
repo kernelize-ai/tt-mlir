@@ -13,6 +13,13 @@
 #include "ttmlir/Dialect/TTNN/Utils/Utils.h"
 #include "llvm/ADT/TypeSwitch.h"
 
+#include "mlir/Dialect/Arith/IR/Arith.h"
+#include "mlir/Dialect/Tensor/IR/Tensor.h"
+#include "mlir/Dialect/SCF/IR/SCF.h"
+#include "mlir/Dialect/ControlFlow/IR/ControlFlow.h"
+#include "mlir/Dialect/MLProgram/IR/MLProgram.h"
+#include "mlir/Dialect/Linalg/IR/Linalg.h"
+
 using namespace mlir;
 using namespace mlir::tt::ttnn;
 
