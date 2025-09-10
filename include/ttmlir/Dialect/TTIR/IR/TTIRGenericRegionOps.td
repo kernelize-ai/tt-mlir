@@ -983,7 +983,7 @@ def TTIR_YieldOp : TTIR_GenericRegionOp<"yield", [
         mlir::bufferization::AliasingValueList result;
         return result;
       }
-      mlir::FailureOr<mlir::BaseMemRefType> $cppClass::getBufferType(
+      mlir::FailureOr<mlir::bufferization::BufferLikeType> $cppClass::getBufferType(
           mlir::Value, const mlir::bufferization::BufferizationOptions &,
           const mlir::bufferization::BufferizationState &,
           ::llvm::SmallVector<mlir::Value> &) {

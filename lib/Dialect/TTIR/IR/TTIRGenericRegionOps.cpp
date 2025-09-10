@@ -308,12 +308,12 @@ mlir::bufferization::AliasingValueList mlir::tt::ttir::DMAOp::getAliasingValues(
   return result;
 }
 
-mlir::FailureOr<mlir::BaseMemRefType> mlir::tt::ttir::DMAOp::getBufferType(
+mlir::FailureOr<mlir::bufferization::BufferLikeType> mlir::tt::ttir::DMAOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
     ::llvm::SmallVector<mlir::Value> &) {
   auto rankedTensorType = mlir::cast<mlir::RankedTensorType>(value.getType());
-  return ttir::getBufferType(rankedTensorType, /*isView=*/true);
+  return cast<bufferization::BufferLikeType>(ttir::getBufferType(rankedTensorType, /*isView=*/true));
 }
 
 mlir::OpFoldResult mlir::tt::ttir::IterIndexOp::fold(FoldAdaptor adaptor) {
@@ -546,7 +546,7 @@ mlir::tt::ttir::TileTilizeBlockOp::getAliasingValues(
   return result;
 }
 
-mlir::FailureOr<mlir::BaseMemRefType>
+mlir::FailureOr<mlir::bufferization::BufferLikeType>
 mlir::tt::ttir::TileTilizeBlockOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
@@ -604,7 +604,7 @@ mlir::tt::ttir::TileUntilizeBlockOp::getAliasingValues(
   return result;
 }
 
-mlir::FailureOr<mlir::BaseMemRefType>
+mlir::FailureOr<mlir::bufferization::BufferLikeType>
 mlir::tt::ttir::TileUntilizeBlockOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,

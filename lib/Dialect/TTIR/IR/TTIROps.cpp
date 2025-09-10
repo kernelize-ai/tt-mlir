@@ -486,11 +486,11 @@ mlir::tt::ttir::EmptyOp::getAliasingValues(
   return result;
 }
 
-mlir::FailureOr<mlir::BaseMemRefType> mlir::tt::ttir::EmptyOp::getBufferType(
+mlir::FailureOr<mlir::bufferization::BufferLikeType> mlir::tt::ttir::EmptyOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
     ::llvm::SmallVector<mlir::Value> &) {
-  return mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false);
+  return cast<bufferization::BufferLikeType>(mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false));
 }
 
 //===----------------------------------------------------------------------===//
@@ -621,11 +621,11 @@ mlir::tt::ttir::ConstantOp::getAliasingValues(
   return result;
 }
 
-mlir::FailureOr<mlir::BaseMemRefType> mlir::tt::ttir::ConstantOp::getBufferType(
+mlir::FailureOr<mlir::bufferization::BufferLikeType> mlir::tt::ttir::ConstantOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
     ::llvm::SmallVector<mlir::Value> &) {
-  return mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false);
+  return cast<bufferization::BufferLikeType>(mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false));
 }
 
 //===----------------------------------------------------------------------===//
@@ -2855,12 +2855,11 @@ mlir::LogicalResult mlir::tt::ttir::ToLayoutOp::bufferize(
   return success();
 }
 
-mlir::FailureOr<mlir::BaseMemRefType> mlir::tt::ttir::ToLayoutOp::getBufferType(
+mlir::FailureOr<mlir::bufferization::BufferLikeType> mlir::tt::ttir::ToLayoutOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
     ::llvm::SmallVector<mlir::Value> &) {
-  return mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false,
-                                       getLayout());
+  return cast<bufferization::BufferLikeType>(mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false, getLayout()));
 }
 
 //===----------------------------------------------------------------------===//
@@ -2979,12 +2978,12 @@ mlir::tt::ttir::StreamLayoutOp::getAliasingValues(
   return result;
 }
 
-mlir::FailureOr<mlir::BaseMemRefType>
+mlir::FailureOr<mlir::bufferization::BufferLikeType>
 mlir::tt::ttir::StreamLayoutOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
     ::llvm::SmallVector<mlir::Value> &) {
-  return mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/true);
+  return cast<bufferization::BufferLikeType>(mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/true));
 }
 
 //===----------------------------------------------------------------------===//
@@ -3135,12 +3134,12 @@ mlir::tt::ttir::ViewLayoutOp::getAliasingValues(
   return result;
 }
 
-mlir::FailureOr<mlir::BaseMemRefType>
+mlir::FailureOr<mlir::bufferization::BufferLikeType>
 mlir::tt::ttir::ViewLayoutOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
     ::llvm::SmallVector<mlir::Value> &) {
-  return mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/true);
+  return cast<bufferization::BufferLikeType>(mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/true));
 }
 
 mlir::OpFoldResult mlir::tt::ttir::ViewLayoutOp::fold(FoldAdaptor adaptor) {
@@ -4421,11 +4420,11 @@ mlir::tt::ttir::FullOp::getAliasingValues(
   return result;
 }
 
-mlir::FailureOr<mlir::BaseMemRefType> mlir::tt::ttir::FullOp::getBufferType(
+mlir::FailureOr<mlir::bufferization::BufferLikeType> mlir::tt::ttir::FullOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
     ::llvm::SmallVector<mlir::Value> &) {
-  return mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false);
+  return cast<bufferization::BufferLikeType>(mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false));
 }
 
 static std::optional<std::string>
@@ -5075,19 +5074,19 @@ mlir::LogicalResult mlir::tt::ttir::GenericOp::bufferize(
   return success();
 }
 
-mlir::FailureOr<mlir::BaseMemRefType> mlir::tt::ttir::GenericOp::getBufferType(
+mlir::FailureOr<mlir::bufferization::BufferLikeType> mlir::tt::ttir::GenericOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
     ::llvm::SmallVector<mlir::Value> &) {
   auto tensorType = mlir::cast<RankedTensorType>(value.getType());
   if (mlir::isa<mlir::BlockArgument>(value)) {
     assert(!tensorType.getEncoding());
-    return MemRefType::get(
+    return cast<bufferization::BufferLikeType>(MemRefType::get(
         tensorType.getShape(), tensorType.getElementType(), nullptr,
         ttcore::MemorySpaceAttr::get(tensorType.getContext(),
-                                     ttcore::MemorySpace::DeviceL1));
+                                     ttcore::MemorySpace::DeviceL1)));
   }
-  return mlir::tt::ttir::getBufferType(tensorType, /*isView=*/false);
+  return cast<bufferization::BufferLikeType>(mlir::tt::ttir::getBufferType(tensorType, /*isView=*/false));
 }
 
 //===----------------------------------------------------------------------===//
