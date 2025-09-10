@@ -8,6 +8,8 @@
 #include "mlir/InitAllDialects.h"
 #include "ttmlir/Dialect/SFPI/IR/SFPIOps.h"
 #include "ttmlir/Dialect/SFPI/IR/SFPIOpsTypes.h"
+#include "mlir/Dialect/Arith/IR/Arith.h"
+#include "mlir/Dialect/Vector/IR/VectorOps.h"
 #include "llvm/ADT/StringRef.h"
 #include "llvm/ADT/TypeSwitch.h"
 
