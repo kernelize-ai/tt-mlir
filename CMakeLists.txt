@@ -82,6 +82,7 @@ if (CMAKE_BUILD_TYPE STREQUAL "Debug")
 endif()
 
 add_compile_options(-Wall -Wextra -Wpedantic -Werror -Wno-unused-parameter --system-header-prefix=ENV{TTMLIR_TOOLCHAIN_DIR})
+add_compile_options(-Wno-covered-switch-default)
 
 set(CMAKE_LINKER_TYPE DEFAULT)
 if(CMAKE_CXX_COMPILER_ID MATCHES "Clang")
