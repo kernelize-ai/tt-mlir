@@ -104,8 +104,6 @@ llvm::LogicalResult compileToObject(llvm::Module &module,
                                     llvm::StringRef outputFilename) {
 
   //  Initialize LLVM targets.
-  // TODO (#1631): eventually, we should get this working on other archs, but
-  // adding new archs requires corresponding cmake changes.
   LLVMInitializeAllTargetInfos();
   LLVMInitializeAllTargets();
   LLVMInitializeAllTargetMCs();
