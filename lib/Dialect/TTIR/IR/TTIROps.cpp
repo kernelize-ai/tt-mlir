@@ -3279,12 +3279,12 @@ mlir::tt::ttir::TTNNMetalLayoutCastOp::getAliasingValues(
   return result;
 }
 
-mlir::FailureOr<mlir::BaseMemRefType>
+mlir::FailureOr<mlir::bufferization::BufferLikeType>
 mlir::tt::ttir::TTNNMetalLayoutCastOp::getBufferType(
     mlir::Value value, const mlir::bufferization::BufferizationOptions &,
     const mlir::bufferization::BufferizationState &,
     ::llvm::SmallVector<mlir::Value> &) {
-  return mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false);
+  return cast<bufferization::BufferLikeType>(mlir::tt::ttir::getBufferType(value.getType(), /*isView=*/false));
 }
 
 bool mlir::tt::ttir::TTNNMetalLayoutCastOp::bufferizesToMemoryRead(
