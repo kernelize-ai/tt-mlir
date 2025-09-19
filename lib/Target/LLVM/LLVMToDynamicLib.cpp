@@ -106,11 +106,11 @@ llvm::LogicalResult compileToObject(llvm::Module &module,
   //  Initialize LLVM targets.
   // TODO (#1631): eventually, we should get this working on other archs, but
   // adding new archs requires corresponding cmake changes.
-  LLVMInitializeX86Target();
-  LLVMInitializeX86TargetMC();
-  LLVMInitializeX86TargetInfo();
-  LLVMInitializeX86AsmPrinter();
-  LLVMInitializeX86AsmParser();
+  LLVMInitializeAllTargetInfos();
+  LLVMInitializeAllTargets();
+  LLVMInitializeAllTargetMCs();
+  LLVMInitializeAllAsmParsers();
+  LLVMInitializeAllAsmPrinters();
 
   // Set target triple if not already set.
   if (module.getTargetTriple().empty()) {
