@@ -58,7 +58,7 @@ execute_process(
 
 # Extract the major and minor version from the tag (assumes tags are in "major.minor" format)
 if(NOT DEFINED GIT_TAG)
-  set(GIT_TAG "" CACHE STRING "v0.0")
+  set(GIT_TAG "v0.0")
 endif()
 string(REGEX MATCH "^v([0-9]+)\\.([0-9]+)$" GIT_TAG_MATCH ${GIT_TAG})
 set(TTMLIR_VERSION_MAJOR ${CMAKE_MATCH_1})
