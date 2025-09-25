@@ -57,12 +57,9 @@ execute_process(
 )
 
 # Extract the major and minor version from the tag (assumes tags are in "major.minor" format)
-if(NOT DEFINED GIT_TAG)
-  set(GIT_TAG "v0.0")
-endif()
-string(REGEX MATCH "^v([0-9]+)\\.([0-9]+)$" GIT_TAG_MATCH ${GIT_TAG})
-set(TTMLIR_VERSION_MAJOR ${CMAKE_MATCH_1})
-set(TTMLIR_VERSION_MINOR ${CMAKE_MATCH_2})
+# TODO: fix this later
+set(TTMLIR_VERSION_MAJOR 0)
+set(TTMLIR_VERSION_MINOR 0)
 set(TTMLIR_VERSION_PATCH ${GIT_COMMITS})
 
 message(STATUS "Project commit hash: ${TTMLIR_GIT_HASH}")
