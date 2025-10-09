@@ -2,6 +2,7 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+# this is required to find nanobind but is probably undesireable - TODO fix the find_package(nanobind to not require this line)
 find_package(Python COMPONENTS Interpreter Development
     REQUIRED)
 find_package(nanobind CONFIG REQUIRED)
