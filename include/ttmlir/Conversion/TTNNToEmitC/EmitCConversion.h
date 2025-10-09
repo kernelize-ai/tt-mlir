@@ -1602,7 +1602,7 @@ public:
 
       emitc::ExpressionOp conv2dExpr = rewriter.create<emitc::ExpressionOp>(
           op.getLoc(),
-          rewriter.getType<emitc::OpaqueType>(TypeNameV<::ttnn::Tensor>));
+          rewriter.getType<emitc::OpaqueType>(TypeNameV<::ttnn::Tensor>), op->getOperands());
 
       mlir::Block &bodyBlock = conv2dExpr.getBodyRegion().emplaceBlock();
       rewriter.setInsertionPointToStart(&bodyBlock);
