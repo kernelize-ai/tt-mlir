@@ -2,6 +2,8 @@
 #
 # SPDX-License-Identifier: Apache-2.0
 
+find_package(Python COMPONENTS Interpreter Development
+    REQUIRED)
 find_package(nanobind CONFIG REQUIRED)
 
 set(TTMLIR_RUNTIME_PYTHON_SRCS
