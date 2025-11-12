@@ -1,5 +1,8 @@
 message(STATUS "Runtimes Enabled: TTNN[${TT_RUNTIME_ENABLE_TTNN}] TTMETAL[${TT_RUNTIME_ENABLE_TTMETAL}]")
 
+# resolve default label in switch which covers all enumeration values in flatbuffers/idl.h
+add_compile_options(-Wno-covered-switch-default)
+
 add_subdirectory(common)
 add_subdirectory(ttnn)
 add_subdirectory(ttmetal)
