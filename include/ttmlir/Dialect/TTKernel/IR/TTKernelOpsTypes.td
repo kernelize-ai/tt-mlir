@@ -133,12 +133,17 @@ def TTKernel_ArgAttr : TTKernel_Attr<"Arg", "arg"> {
   let description = [{
   }];
   let parameters = (ins "ArgType":$arg_type, "size_t":$operand_index,
-                        DefaultValuedParameter<"bool", "true">:$is_uniform);
+                        DefaultValuedParameter<"bool", "true">:$is_uniform,
+                        DefaultValuedParameter<"std::string", "std::string()">:$argument_name);
   let assemblyFormat = "`<` struct(params) `>`";
 
   let extraClassDeclaration = [{
     static ArgAttr get(::mlir::MLIRContext *context, ArgType argType, size_t index) {
-      return ArgAttr::get(context, argType, index, true);
+      return ArgAttr::get(context, argType, index, true, "");
+    }
+
+    static ArgAttr get(::mlir::MLIRContext *context, std::string argumentName) {
+      return ArgAttr::get(context, ArgType::NamedArgument, 0, true, argumentName);
     }
   }];
 }

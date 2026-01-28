@@ -63,6 +63,11 @@ public:
       return builder.getAttr<ttnn::KernelArgSemaphoreAtAttr>(
           arg.getOperandIndex());
     }
+    case ttkernel::ArgType::NamedArgument: {
+      llvm::errs() << "uh oh arg: " << arg << "\n";
+      return builder.getAttr<ttnn::KernelNamedArgAttr>(
+          /*TODO: */"name", /*VAL: */0);
+    }
     }
   }
 

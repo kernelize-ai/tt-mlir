@@ -2833,7 +2833,16 @@ createKernelArgs(FlatbufferObjectCache &cache,
       arg = ::tt::target::ttnn::CreateKernelArgSemaphoreAt(
                 *cache.fbb, kernelArgSemaphoreAtAttr.getSemaphoreIndex())
                 .Union();
+    } else if (auto kernelArgNamedArgument =
+                   llvm::dyn_cast<KernelNamedArgAttr>(argAttr);
+               kernelArgNamedArgument) {
+      argType = ::tt::target::ttnn::KernelArgType::KernelArgNamedArgument;
+      arg = ::tt::target::ttnn::CreateKernelArgNamedArgument(
+                *cache.fbb, toFlatbuffer(cache, kernelArgNamedArgument.getName()),
+                kernelArgNamedArgument.getValue())
+                .Union();
     } else {
+      llvm::errs() << "Unsupported kernel argument attribute: " << argAttr << "\n";
       llvm_unreachable("Unsupported kernel argument attribute");
     }
 
