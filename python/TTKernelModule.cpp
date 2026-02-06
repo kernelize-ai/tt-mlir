@@ -88,7 +88,7 @@ void populateTTKernelModule(nb::module_ &m) {
              bool isUniform = true) {
             return wrap(tt::ttkernel::ArgAttr::get(
                 unwrap(ctx), static_cast<tt::ttkernel::ArgType>(argTypeValue),
-                operandIndex, isUniform));
+                operandIndex, isUniform, std::string("")));
           },
           nb::arg("ctx"), nb::arg("argTypeValue"), nb::arg("operandIndex"),
           nb::arg("isUniform") = true)
