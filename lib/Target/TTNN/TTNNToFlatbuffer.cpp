@@ -2837,12 +2837,14 @@ createKernelArgs(FlatbufferObjectCache &cache,
                    llvm::dyn_cast<KernelNamedArgAttr>(argAttr);
                kernelArgNamedArgument) {
       argType = ::tt::target::ttnn::KernelArgType::KernelArgNamedArgument;
-      arg = ::tt::target::ttnn::CreateKernelArgNamedArgument(
-                *cache.fbb, toFlatbuffer(cache, kernelArgNamedArgument.getName()),
-                kernelArgNamedArgument.getValue())
-                .Union();
+      arg =
+          ::tt::target::ttnn::CreateKernelArgNamedArgument(
+              *cache.fbb, toFlatbuffer(cache, kernelArgNamedArgument.getName()),
+              kernelArgNamedArgument.getValue())
+              .Union();
     } else {
-      llvm::errs() << "Unsupported kernel argument attribute: " << argAttr << "\n";
+      llvm::errs() << "Unsupported kernel argument attribute: " << argAttr
+                   << "\n";
       llvm_unreachable("Unsupported kernel argument attribute");
     }
 
