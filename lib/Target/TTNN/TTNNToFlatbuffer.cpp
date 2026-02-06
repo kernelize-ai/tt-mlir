@@ -2843,8 +2843,6 @@ createKernelArgs(FlatbufferObjectCache &cache,
               kernelArgNamedArgument.getValue())
               .Union();
     } else {
-      llvm::errs() << "Unsupported kernel argument attribute: " << argAttr
-                   << "\n";
       llvm_unreachable("Unsupported kernel argument attribute");
     }
 
