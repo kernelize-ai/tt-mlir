@@ -2834,7 +2834,7 @@ createKernelArgs(FlatbufferObjectCache &cache,
                 *cache.fbb, kernelArgSemaphoreAtAttr.getSemaphoreIndex())
                 .Union();
     } else if (auto kernelArgNamedArgument =
-                   llvm::dyn_cast<KernelNamedArgAttr>(argAttr);
+                   llvm::dyn_cast<KernelArgNamedArgAttr>(argAttr);
                kernelArgNamedArgument) {
       argType = ::tt::target::ttnn::KernelArgType::KernelArgNamedArgument;
       arg =

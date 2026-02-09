@@ -69,7 +69,7 @@
   symbol_ref = @write_kernel,
   core_ranges = #core_ranges,
   ct_args = [#out_cb_arg],
-  common_rt_args = [],
+  common_rt_args = [#ttnn.kernel_named_arg<name = "page_size", value = 4096>],
   rt_args = [#ttnn.core_runtime_args<core_coord = #core, args = [#out_addr_arg]>]>
 
 #program = #ttnn.program<
@@ -158,7 +158,7 @@ module {
     return
   }
   // Test named arguments by passing page size as a constant
-  func.func private @write_kernel() attributes {tt.function_type = "kernel", ttkernel.arg_spec = #ttkernel.arg_spec< rt_args = [<arg_type = buffer_address, operand_index = 0>, <arg_type = named_argument, argument_name = "page_size", operand_index = 4096 >] ct_args = [<arg_type = cb_port, operand_index = 0>]>, ttkernel.thread = #ttkernel.thread<noc>} {
+  func.func private @write_kernel() attributes {tt.function_type = "kernel", ttkernel.arg_spec = #ttkernel.arg_spec< rt_args = [<arg_type = buffer_address, operand_index = 0>, <arg_type = named_argument, argument_name = "page_size", operand_index = 1 >] ct_args = [<arg_type = cb_port, operand_index = 0>]>, ttkernel.thread = #ttkernel.thread<noc>} {
     %0 = "emitc.constant"() <{value = 1 : i32}> : () -> i32
     %1 = emitc.call_opaque "get_arg_val"(%0) {template_args = [#emitc.opaque<"uint32_t">]} : (i32) -> i32
 

@@ -64,8 +64,8 @@ public:
           arg.getOperandIndex());
     }
     case ttkernel::ArgType::NamedArgument: {
-      return builder.getAttr<ttnn::KernelNamedArgAttr>(arg.getArgumentName(),
-                                                       arg.getOperandIndex());
+      return builder.getAttr<ttnn::KernelArgNamedArgAttr>(
+          arg.getArgumentName(), arg.getOperandIndex());
     }
     }
   }
