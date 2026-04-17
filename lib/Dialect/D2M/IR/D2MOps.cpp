@@ -1728,9 +1728,11 @@ MutableArrayRef<OpOperand> d2m::GenericOp::getInputsAndOutputsMutable() {
     }
   }
 
+#if 0
   if (getOutputs().size() != 1) {
     return emitOpError("must currently have exactly one output operand");
   }
+#endif 
 
   if (getThreads().empty()) {
     return emitOpError("must have at least one thread");
@@ -1848,9 +1850,10 @@ MutableArrayRef<OpOperand> d2m::GenericOp::getInputsAndOutputsMutable() {
     }
   }
 
-  auto rankedTensorType =
-      mlir::dyn_cast<RankedTensorType>(getOutputs().front().getType());
-  bool hasGrid = mlir::isa<MemRefType>(getOutputs().front().getType()) ||
+  bool hasOutputs = !getOutputs().empty();
+  auto rankedTensorType = hasOutputs ?
+      mlir::dyn_cast<RankedTensorType>(getOutputs().front().getType()) : nullptr;
+  bool hasGrid = (hasOutputs && mlir::isa<MemRefType>(getOutputs().front().getType())) ||
                  (rankedTensorType && rankedTensorType.getEncoding());
   SmallVector<AffineMap> indexingMaps = getIndexingMapsValue();
   if (hasGrid && !indexingMaps.empty()) {
