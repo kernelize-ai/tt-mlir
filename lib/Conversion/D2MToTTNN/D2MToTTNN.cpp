@@ -331,14 +331,15 @@ static SmallVector<mlir::Attribute> createKernelDescriptors(
     switch (threadAttr.getThreadType()) {
     case d2m::ThreadType::Compute: {
       // TODO (vtangTT) #5032: support lowering to different compute configs.
+      // (kernelize would like this)
       kernelConfigs[i] = builder.getAttr<ttnn::ComputeKernelAttr>(
           kernelSymbol, coreRangeSet,
           /*math_fidelity*/ convertMathFidelity(mathFidelity),
-          /*fp32DestAccum*/ false,
+          /*fp32DestAccum*/ true,
           /*dst_full_sync_en*/ false,
           /*unpack_to_dest_mode*/
           ArrayRef<ttnn::ComputeKernelUnpackToDestMode>{
-              ttnn::ComputeKernelUnpackToDestMode::Default},
+              ttnn::ComputeKernelUnpackToDestMode::Fp32},
           /*bfp8_pack_precise*/ false,
           /*math_approx_mode*/ false, kernelCRTArgs, kernelCTArgs);
       break;
