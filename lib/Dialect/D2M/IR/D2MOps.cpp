@@ -2007,6 +2007,9 @@ MutableArrayRef<OpOperand> d2m::GenericOp::getInputsAndOutputsMutable() {
       // device layout: https://github.com/tenstorrent/tt-mlir/issues/5445
       continue;
     }
+    if (mlir::isa<ttcore::InterleavedLayoutAttr>(layout)) {
+      continue;
+    }
     ArrayRef<int64_t> outputGridShape = layout.getGridShape(outputType);
     if (!llvm::all_of(llvm::zip(outputGridShape, opGridShape), [](auto pair) {
           auto [out, op] = pair;
