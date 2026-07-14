@@ -754,9 +754,10 @@ public:
     auto outCB = getOutCB(rewriter, store);
 
     auto insertionPoint = rewriter.getInsertionPoint();
-    rewriter.setInsertionPointToStart(rewriter.getInsertionBlock());
-    setInsertionPointAfterOperands(rewriter, {inCB, outCB},
-                                   /*allowHoisting*/ true);
+    // rewriter.setInsertionPointToStart(rewriter.getInsertionBlock());
+    rewriter.setInsertionPointToStart(store->getBlock());
+    // setInsertionPointAfterOperands(rewriter, {inCB, outCB},
+                                  //  /*allowHoisting*/ true);
     rewriter.create<ttkernel::InitSFPUOp>(store.getLoc(), inCB, outCB);
     rewriter.setInsertionPoint(insertionPoint->getBlock(), insertionPoint);
 
@@ -774,6 +775,8 @@ public:
     auto storeIdx =
         computeLinearIndex(store.getLoc(), store.getMemRefType().getShape(),
                            adaptor.getIndices(), rewriter);
+    // TODO: conditionally
+    rewriter.create<ttkernel::PackReconfigDataFormatOp>(store.getLoc(), cb);
     rewriter.replaceOpWithNewOp<ttkernel::PackTileOp>(
         store, dst, cb, storeIdx, rewriter.getBoolAttr(true));
     return success();
@@ -1357,9 +1360,17 @@ public:
     } else {
       inCB = getInCB(rewriter, op);
     }
-    rewriter.setInsertionPointToStart(rewriter.getInsertionBlock());
-    setInsertionPointAfterOperands(rewriter, {inCB, outCB},
-                                   /*allowHoisting*/ true);
+    // rewriter.setInsertionPointToStart(rewriter.getInsertionBlock());
+    // setInsertionPointAfterOperands(rewriter, {inCB, outCB},
+                                  //  /*allowHoisting*/ false);
+    Operation *anchor = op;
+    for (Operation *prev = op->getPrevNode(); prev; prev = prev->getPrevNode()) {
+      if (isa<ttkernel::TileRegsAcquireOp, d2m::AcquireDstOp>(prev)) {
+        anchor = prev;
+        break;
+      }
+    }
+    rewriter.setInsertionPoint(anchor);
     rewriter.create<ttkernel::InitSFPUOp>(op->getLoc(), inCB, outCB);
     rewriter.setInsertionPoint(insertionPoint->getBlock(), insertionPoint);
 
@@ -1398,6 +1409,7 @@ public:
           mlir::cast<ttcore::TileType>(op.getInput().getType()).getDataType();
       const auto outDtype =
           mlir::cast<ttcore::TileType>(op.getResult().getType()).getDataType();
+      // rewriter.create<ttkernel::PackReconfigDataFormatOp>(op->getLoc(), inCB);
       rewriter.create<ttkernel::TypecastTileInitOp>(op->getLoc(), inDtype,
                                                     outDtype);
     } else {
