@@ -337,9 +337,10 @@ static SmallVector<mlir::Attribute> createKernelDescriptors(
           /*math_fidelity*/ convertMathFidelity(mathFidelity),
           /*fp32DestAccum*/ true,
           /*dst_full_sync_en*/ false,
+          // TODO: mirror the kernelContainsTypecast logic from D2MToTTMetal
           /*unpack_to_dest_mode*/
           ArrayRef<ttnn::ComputeKernelUnpackToDestMode>{
-              ttnn::ComputeKernelUnpackToDestMode::Fp32},
+              ttnn::ComputeKernelUnpackToDestMode::Default},
           /*bfp8_pack_precise*/ false,
           /*math_approx_mode*/ false, kernelCRTArgs, kernelCTArgs);
       break;
