@@ -774,9 +774,10 @@ public:
     auto outCB = getOutCB(rewriter, store);
 
     auto insertionPoint = rewriter.getInsertionPoint();
-    rewriter.setInsertionPointToStart(rewriter.getInsertionBlock());
-    setInsertionPointAfterOperands(rewriter, {inCB, outCB},
-                                   /*allowHoisting*/ true);
+    // rewriter.setInsertionPointToStart(rewriter.getInsertionBlock());
+    rewriter.setInsertionPointToStart(store->getBlock());
+    // setInsertionPointAfterOperands(rewriter, {inCB, outCB},
+                                  //  /*allowHoisting*/ true);
     rewriter.create<ttkernel::ComputeKernelHWStartupOp>(store.getLoc(), inCB,
                                                         nullptr, outCB);
     rewriter.setInsertionPoint(insertionPoint->getBlock(), insertionPoint);
